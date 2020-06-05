@@ -1,6 +1,6 @@
 {
   "name": "openemp-api-notification",
-  "version": "1.0.0",
+  "version": "1.0.0-latest",
   "description": "OpenEMP Notification Service API",
   "main": "src/main.js",
   "scripts": {
@@ -13,8 +13,8 @@
     "url": "openemp"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "OpenEMP",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/openemp/openemp-api-notification/issues"
   },
