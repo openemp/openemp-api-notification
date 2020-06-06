@@ -41,6 +41,9 @@ app.get('/notifications', function (req, res) {
     res.send(notification)
 })
 
+/**
+ * Send a notification to a list of profiles
+ */
 app.post('/notifications', function (req, res) {
     let {content, receivers} = req.body
     console.log(req.body)
