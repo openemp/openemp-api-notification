@@ -6,11 +6,44 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
+/**
+ * By passing a JWT and profile ID you can get a list of notifications
+ * By passing in the appropriate options, you can search for available inventory in the system
+ * @param user - pass an optional search string to specify the profile ID
+ * for which the notifications will be fetched (only work for admin users)
+ * @param read - set to true to also include seen notifications
+ * @return search results matching criteria || bad input parameter
+ */
+app.get('/notifications', function (req, res) {
+  let { user, read } = req.query
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
+  if (user===undefined || user==='') {
+    res.send({error: 'bad input parameter'})
+    return;
+  }
+
+  if (read===undefined) read = false
+
+  //TODO get notification by user from DB
+
+  // if OK
+  const notification = {
+    "uuid": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+    "id": 1,
+    "sender": 1,
+    "receiver": 2,
+    "creationDate": "2020-08-29T09:12:33.001Z",
+    "read": false,
+    "updateDate": "2020-08-29T09:13:32.021Z",
+    "retired": false
+  }
+  res.send(notification)
 })
 
-app.listen(3000, function () {
-  console.log('App listening on port 3000!')
+app.post('/notifications', function (req, res) {
+
+})
+
+app.listen(4000, function () {
+  console.log('App listening on port 4000!')
 })

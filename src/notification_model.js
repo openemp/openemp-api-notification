@@ -1,5 +1,6 @@
 class Notification {
-	constructor(uuid, id, sender, content, receiver, read, retired, creationDate, updateDate){
+	constructor(uuid, id, sender, content, receiver, read=null,
+				retired, creationDate, updateDate=null){
 		this.uuid = uuid
 		this.id = id 
 		this.sender = sender
