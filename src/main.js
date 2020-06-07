@@ -1,12 +1,16 @@
 const express = require('express')
 var cors = require('cors')
+require('dotenv').config()
 
 var bodyParser = require('body-parser')
 const app = express()
 
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 app.use(cors())
+
+const PORT = process.env.PORT || 4000
+const BASE_URL = '/api/v1/notifications'
 
 /**
  * By passing a JWT and profile ID you can get a list of notifications
@@ -16,12 +20,12 @@ app.use(cors())
  * @param read - set to true to also include seen notifications
  * @return search results matching criteria || bad input parameter
  */
-app.get('/notifications', function (req, res) {
+app.get(BASE_URL, function (req, res) {
     let {user, read} = req.query
 
     if (user === undefined || user === '') {
         res.send({error: 'bad input parameter'})
-        return;
+        return
     }
 
     if (read === undefined) read = false
@@ -45,17 +49,17 @@ app.get('/notifications', function (req, res) {
 /**
  * Send a notification to a list of profiles
  */
-app.post('/notifications', function (req, res) {
+app.post(BASE_URL, function (req, res) {
     let {content, receivers} = req.body
     console.log(req.body)
     if (content === undefined || receivers === undefined) {
         res.send({error: 'object invalid'})
-        return;
+        return
     }
 
     if (content === '' || receivers.length === 0) {
         res.send({error: 'bad input parameter'})
-        return;
+        return
     }
 
     //TODO add {content} in DB to {receivers}
@@ -64,6 +68,6 @@ app.post('/notifications', function (req, res) {
     res.send({message: 'notifications sent'})
 })
 
-app.listen(4000, function () {
-    console.log('App listening on port 4000!')
+app.listen(PORT , function () {
+    console.log('App listening on port '+PORT)
 })
