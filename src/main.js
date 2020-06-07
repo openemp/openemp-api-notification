@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(cors())
 
-const PORT = process.env.PORT || 4000
+const PORT = process.env.SERVER_PORT || 4000
 const BASE_URL = '/api/v1/notifications'
 
 /**
