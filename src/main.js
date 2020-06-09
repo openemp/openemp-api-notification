@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express');
 const cors = require('cors');
 require('dotenv').config()
 const MongoClient = require('mongodb').MongoClient;
@@ -7,6 +7,7 @@ const assert = require('assert');
 const bodyParser = require('body-parser');
 const schema = require("./notification_schema");
 const {insertNotification} = require("./notification_services");
+
 const app = express()
 
 app.use(bodyParser.urlencoded({extended: true}))
@@ -43,7 +44,7 @@ client.connect((err) => {
     }).catch((err) => {
         console.log(err)
     })
-});
+})
 
 /**
  * By passing a JWT and profile ID you can get a list of notifications

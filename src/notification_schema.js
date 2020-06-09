@@ -39,5 +39,6 @@ const schema = {
             }
         },
     }
-};
+}
+
 module.export = { schema }
