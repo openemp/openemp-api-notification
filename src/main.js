@@ -5,7 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
 const bodyParser = require('body-parser');
-const schema = require("./notification_schema");
+const validator = require("./notification_schema");
 const {insertNotification} = require("./notification_services");
 
 const app = express()
@@ -33,14 +33,11 @@ let db
 client.connect((err) => {
     assert.strictEqual(null, err);
     db = client.db(dbName)
-    db.createCollection('notifications').then(async () => {
-        await db.command({collMod: "notifications", validator: schema})
-            .then(() => {
-                console.log("Connected successfully to Database")
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+
+    db.createCollection('notifications',
+        {validator: validator, validationLevel: "strict", validationAction: "error"}
+    ).then(() => {
+        console.log("Connected successfully to Database")
     }).catch((err) => {
         console.log(err)
     })
@@ -69,7 +66,6 @@ app.get(BASE_URL, function (req, res) {
     // if OK
     const notification = {
         "uuid": "d290f1ee-6c54-4b01-90e6-d701748f0851",
-        "id": 1,
         "sender": 1,
         "receiver": 2,
         "creationDate": "2020-08-29T09:12:33.001Z",
@@ -96,24 +92,25 @@ app.post(BASE_URL, function (req, res) {
         return
     }
 
-    //TODO add {content} in DB to {receivers}
     let data = {
         "uuid": "d290f1ee-6c54-4b01-90e6-d701748f0851",
-        "id": 1,
-        "sender": 1,
-        "receiver": 2,
-        "content": content,
-        "creationDate": "2020-08-29T09:12:33.001Z",
+        "sender": "1",
+        "receiver": "2",
+        "content": content.toString(),
+        "creationDate": new Date(),
         "read": false,
-        "updateDate": "2020-08-29T09:13:32.021Z",
+        "updateDate": new Date(),
         "retired": false
     }
-    insertNotification(db,data, ()=>{
-        console.log('done')
+
+    insertNotification(db, data, (msg) => {
+        console.log(msg)
+        if (msg)
+            res.send({message: 'notifications sent'})
+        else
+            res.send({message: 'An error has occurred'})
     })
 
-    // if OK
-    res.send({message: 'notifications sent'})
 })
 
 app.listen(PORT, function () {
