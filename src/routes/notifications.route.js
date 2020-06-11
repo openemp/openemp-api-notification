@@ -1,5 +1,5 @@
 const dbf = require("./../utils/db_conn");
-const {insertNotification} = require("../services/notifications.service");
+const {insertNotification, getNotification} = require("../services/notifications.service");
 
 const BASE_URL = '/api/v1/notifications'
 
@@ -13,29 +13,30 @@ module.exports = app => {
      * @param read - set to true to also include seen notifications
      * @return search results matching criteria || bad input parameter
      */
-    app.get(BASE_URL, function (req, res) {
-        let {user, read} = req.query
+    app.get(BASE_URL,async function (req, res) {
+        let {uuid, read} = req.query
 
-        if (user === undefined || user === '') {
+        if (uuid === undefined || uuid === '') {
             res.send({error: 'bad input parameter'})
             return
         }
 
         if (read === undefined) read = false
 
-        //TODO get notification by user from DB
+        let db;
 
-        // if OK
-        const notification = {
-            "uuid": "d290f1ee-6c54-4b01-90e6-d701748f0851",
-            "sender": 1,
-            "receiver": 2,
-            "creationDate": "2020-08-29T09:12:33.001Z",
-            "read": read,
-            "updateDate": "2020-08-29T09:13:32.021Z",
-            "retired": false
-        }
-        res.send(notification)
+        await dbf.get(function (_db) {
+            db = _db
+        });
+
+        getNotification(db, {uuid}, (msg) => {
+            console.log(msg)
+            if (msg)
+                res.send({message: msg})
+            else
+                res.send({message: 'An error has occurred'})
+        })
+
     })
 
     /**
