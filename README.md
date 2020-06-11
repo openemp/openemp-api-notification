@@ -13,5 +13,7 @@ cd openemp-api-notification
 npm i
 ```
 
+Make **.env** file and use the **.env.example** as guide.
+
 ### Start
 To start the server run either `npm run start` or `npm run dev` (nodemon watch).
