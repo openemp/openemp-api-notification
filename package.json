@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/main.js",
     "dev": "nodemon src/main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --exit"
   },
   "repository": {
     "type": "git",
@@ -21,9 +21,12 @@
   "homepage": "https://github.com/openemp/openemp-api-notification#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongodb": "^3.5.8"
+    "mocha": "^8.0.1",
+    "mongodb": "^3.5.8",
+    "request": "^2.88.2"
   }
 }
