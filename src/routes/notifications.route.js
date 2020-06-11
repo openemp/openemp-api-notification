@@ -1,8 +1,6 @@
 const dbf = require("./../utils/db_conn");
+const {BASE_URL_NOTIFICATION} = require('./../utils/constant')
 const {insertNotification, getNotification} = require("../services/notifications.service");
-
-const BASE_URL = '/api/v1/notifications'
-
 
 module.exports = app => {
     /**
@@ -13,7 +11,7 @@ module.exports = app => {
      * @param read - set to true to also include seen notifications
      * @return search results matching criteria || bad input parameter
      */
-    app.get(BASE_URL,async function (req, res) {
+    app.get(BASE_URL_NOTIFICATION,async function (req, res) {
         let {uuid, read} = req.query
 
         if (uuid === undefined || uuid === '') {
@@ -42,7 +40,7 @@ module.exports = app => {
     /**
      * Send a notification to a list of profiles
      */
-    app.post(BASE_URL, async function (req, res) {
+    app.post(BASE_URL_NOTIFICATION, async function (req, res) {
         let {content, receiver} = req.body
 
         if (content === undefined || receiver === undefined) {
