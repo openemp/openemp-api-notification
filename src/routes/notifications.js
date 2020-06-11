@@ -1,6 +1,6 @@
-const dbf = require("./../utils/db_conn");
+const db = require("./../utils/db_conn");
 const {BASE_URL_NOTIFICATION} = require('./../utils/constant')
-const {insertNotification, getNotification} = require("../services/notifications.service");
+const {insertNotification, getNotification} = require("../services/notifications");
 
 module.exports = app => {
     /**
@@ -21,19 +21,14 @@ module.exports = app => {
 
         if (read === undefined) read = false
 
-        let db;
-
-        await dbf.get(function (_db) {
-            db = _db
+        await db.get(function (_db) {
+            getNotification(_db, {uuid}, (msg) => {
+                if (msg)
+                    res.send({message: msg})
+                else
+                    res.send({message: 'An error has occurred'})
+            })
         });
-
-        getNotification(db, {uuid}, (msg) => {
-            console.log(msg)
-            if (msg)
-                res.send({message: msg})
-            else
-                res.send({message: 'An error has occurred'})
-        })
 
     })
 
@@ -53,8 +48,6 @@ module.exports = app => {
             return
         }
 
-        console.log("*",req.body.uuid)
-
         let data = {
             "uuid": req.body.uuid,
             "sender": req.body.sender,
@@ -66,18 +59,14 @@ module.exports = app => {
             "retired": req.body.retired
         }
 
-        let db;
-
-        await dbf.get(function (_db) {
-            db = _db
+        await db.get(function (_db) {
+            insertNotification(_db, data, (msg) => {
+                if (msg)
+                    res.send({message: 'notifications sent'})
+                else
+                    res.send({message: 'An error has occurred'})
+            })
         });
 
-        insertNotification(db, data, (msg) => {
-            console.log(msg)
-            if (msg)
-                res.send({message: 'notifications sent'})
-            else
-                res.send({message: 'An error has occurred'})
-        })
     })
 }

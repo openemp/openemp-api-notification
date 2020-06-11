@@ -1,12 +1,8 @@
-// route for notifications
-const BASE_URL_NOTIFICATION = '/api/v1/notifications'
-
-const env = process.env
-
-// Connection URL
-const DB_URL = `mongodb://${env.DB_HOST}:${env.DB_PORT}`
-
-// Database Name
-const DB_NAME = env.DB_NAME
-
-module.exports = {BASE_URL_NOTIFICATION,DB_URL,DB_NAME}
+module.exports = {
+    // route for notifications
+    BASE_URL_NOTIFICATION: '/api/v1/notifications',
+    // Connection URL
+    DB_URL: `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`,
+    // Database Name
+    DB_NAME: process.env.DB_NAME
+}

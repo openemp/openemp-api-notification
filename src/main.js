@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(cors())
 
-require('../routes/notifications.route')(app);
+require('./routes/notifications')(app);
 
 const PORT = env.SERVER_PORT || 4000
 app.listen(PORT, function () {
