@@ -2,10 +2,10 @@
   "name": "openemp-api-notification",
   "version": "1.0.0-latest",
   "description": "OpenEMP Notification Service API",
-  "main": "src/main.js",
+  "main": "src/utils/main.js",
   "scripts": {
-    "start": "node src/main.js",
-    "dev": "nodemon src/main.js",
+    "start": "node src/utils/main.js",
+    "dev": "nodemon src/utils/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
