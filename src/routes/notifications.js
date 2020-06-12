@@ -3,14 +3,7 @@ const {BASE_URL_NOTIFICATION} = require('./../utils/constant')
 const {insertNotification, getNotification} = require("../services/notifications");
 
 module.exports = app => {
-    /**
-     * By passing a JWT and profile ID you can get a list of notifications
-     * By passing in the appropriate options, you can search for available inventory in the system
-     * @param user - pass an optional search string to specify the profile ID
-     * for which the notifications will be fetched (only work for admin users)
-     * @param read - set to true to also include seen notifications
-     * @return search results matching criteria || bad input parameter
-     */
+
     app.get(BASE_URL_NOTIFICATION,async function (req, res) {
         let {uuid, read} = req.query
 
@@ -32,9 +25,6 @@ module.exports = app => {
 
     })
 
-    /**
-     * Send a notification to a list of profiles
-     */
     app.post(BASE_URL_NOTIFICATION, async function (req, res) {
         let {content, receiver} = req.body
 
