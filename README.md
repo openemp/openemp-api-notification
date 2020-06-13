@@ -3,7 +3,8 @@ OpenEMP Notification Service API
 ## Setup
 ### Requirements
 * git
-* node
+* node v4+.X.X (used v11.14.0)
+* mongodb v2.6+ (used v4.2.7)
 
 ### Build
 To build the notification API run the following:
