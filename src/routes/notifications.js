@@ -42,7 +42,7 @@ module.exports = app => {
             "uuid": req.body.uuid,
             "sender": req.body.sender,
             "receiver": receiver,
-            "content": content.toString(),
+            "content": content,
             "creationDate": new Date(),
             "read": req.body.read,
             "updateDate": new Date(),

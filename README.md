@@ -27,12 +27,10 @@ Store notification:
 ```json
 {
   "uuid": "d290f1ee-6c54-4b01-90e6-d701748f0851",
-  "id": 1,
-  "sender": 1,
-  "receiver": 2,
-  "creationDate": "2020-08-29T09:12:33.001Z",
+  "content": "some content",
+  "sender": "1",
+  "receiver": "2",
   "read": false,
-  "updateDate": "2020-08-29T09:13:32.021Z",
   "retired": false
 }
 ```
