@@ -39,15 +39,18 @@ module.exports = app => {
     app.post(BASE_URL_NOTIFICATION, async function (req, res) {
         const authHeader = req.headers.authorization;
 
-        if (authHeader)
+        let tokenData;
+        if (authHeader) {
             if (!verifyToken(authHeader))
                 return res.sendStatus(403);
             else
-                return res.sendStatus(401);
+                tokenData = verifyToken(authHeader)
+        } else
+            return res.sendStatus(401);
 
         let {content, receiver} = req.body
 
-        if (content === undefined || receiver === undefined) {
+        if (content === undefined || receiver === undefined || !tokenData.sender) {
             res.send({error: 'object invalid'})
             return
         }
@@ -59,7 +62,7 @@ module.exports = app => {
 
         let data = {
             "uuid": req.body.uuid,
-            // "sender": req.body.sender,
+            "sender": tokenData.sender,
             "receiver": receiver,
             "content": content,
             "creationDate": new Date(),
