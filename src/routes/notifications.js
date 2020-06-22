@@ -6,19 +6,20 @@ module.exports = app => {
 
     app.get(BASE_URL_NOTIFICATION, async function (req, res) {
         const authHeader = req.headers.authorization.replace("Bearer ", "");
+
         let tokenData;
         if (authHeader) {
-            if (!verifyToken(authHeader))
+            const vk = verifyToken(authHeader)
+            if (!vk)
                 return res.sendStatus(403);
             else
-                tokenData = verifyToken(authHeader)
+                tokenData = vk.sub
         } else
             return res.sendStatus(401);
 
+        let {read} = req.query
 
-        let {read, sender} = req.query
-
-        if (!tokenData.uuid || !!sender) {
+        if (!tokenData) {
             res.send({error: 'bad input parameter'})
             return
         }
@@ -26,7 +27,7 @@ module.exports = app => {
         if (read === undefined) read = false
 
         await db.get(function (_db) {
-            getNotification(_db, {uuid:tokenData.uuid}, (msg) => {
+            getNotification(_db, {receiver: tokenData}, (msg) => {
                 if (msg)
                     res.send({message: msg})
                 else
@@ -41,28 +42,28 @@ module.exports = app => {
 
         let tokenData;
         if (authHeader) {
-            if (!verifyToken(authHeader))
+            const vk = verifyToken(authHeader)
+            if (!vk)
                 return res.sendStatus(403);
             else
-                tokenData = verifyToken(authHeader)
+                tokenData = vk.sub
         } else
             return res.sendStatus(401);
 
         let {content, receiver} = req.body
 
-        if (content === undefined || receiver === undefined || !tokenData.sender) {
-            res.send({error: 'object invalid'})
-            return
+        if (content === undefined || receiver === undefined) {
+            return res.send({error: 'object invalid'})
+
         }
 
         if (content === '' || receiver.length === 0) {
-            res.send({error: 'bad input parameter'})
-            return
+            return res.send({error: 'bad input parameter'})
         }
 
         let data = {
             "uuid": req.body.uuid,
-            "sender": tokenData.sender,
+            "sender": tokenData,
             "receiver": receiver,
             "content": content,
             "creationDate": new Date(),
