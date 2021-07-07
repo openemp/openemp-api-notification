@@ -4,5 +4,7 @@ module.exports = {
     // Connection URL
     DB_URL: `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`,
     // Database Name
-    DB_NAME: process.env.DB_NAME
+    DB_NAME: process.env.DB_NAME,
+    // JWT SECRET KEY
+    JWT_SECRET_KEY: process.env.JWT_SECRET || "wow"
 }
