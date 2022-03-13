@@ -6,6 +6,7 @@ const {DB_URL,DB_NAME} = require('./../utils/constant')
 const events = require('events');
 const event = new events.EventEmitter();
 
+
 // Create a new MongoClient
 const client = new MongoClient(DB_URL, {useUnifiedTopology: true});
 
